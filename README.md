@@ -23,7 +23,7 @@
   - [EC2インスタンスにログイン](#ec2インスタンスにログイン)
   - [gitlab.rbの編集](#gitlabrbの編集)
   - [編集の有効化](#編集の有効化)
-  - [Githubからリポジトリのインポート](#githubからリポジトリのインポート)
+  - [GitHubからリポジトリのインポート](#githubからリポジトリのインポート)
   - [config.tomlの編集](#configtomlの編集)
   - [GitlabPagesにアクセス](#gitlabpagesにアクセス)
 - [構築で使用した環境](#構築で使用した環境)
@@ -41,7 +41,7 @@
 
 ## 概要
 
-以下を構築し、リポジトリをMainにマージするタイミングでGitlabPagesで静的なページを作成し公開する。
+以下を構築する。また、リポジトリをMainにマージする際、GitlabPagesで静的なページを作成し公開する。
 
 - Gitlab
 - Gitlab Runner
@@ -75,7 +75,8 @@ https://github.com/alex-shpak/hugo-book
 GitlabやGitlabPages、Runner特有の設定にフォーカスした手順を提示する。
 
 手順の中にEC2へのログイン、gitやgitlabの使用方法、terraformやansibleを使用する際のクライアント設定方法等は含まない。
-例えば、EC2へのログインは秘密鍵を使ってsshクライアントから接続するような方法があるが、そのような作業手順は対象外としている。
+
+たとえば、EC2へのログインは秘密鍵を使ってsshクライアントから接続するような方法があるが、そのような作業手順は対象外としている。
 
 ## 構築環境
 
@@ -176,8 +177,6 @@ admin > Runnersから「Register an instance runner」のボタンでからtoken
 
 このplaybookにより、Gitlab Runnerがインストールされる。また、GitlabとGitlab Runnerを関連づける。
 
-
-
 ```ansible-playbook -i hosts site.yml```
 
 ansibleでのログインが最初のログイン時、以下のように接続有無をを聞かれる。yesを入力する。
@@ -211,14 +210,13 @@ Gitlab Pagesに関連する定義として、以下を追記する。```pages_ex
 
 編集した内容を以下のコマンドで有効にする。
 
-
     sudo gitlab-ctl reconfigure
 
 なお、このコマンドの反映には時間がかかる。
 
-プロンプトが返ってきても、Gitlabのページにアクセスできない場合がある。プロンプトが返った後でも５分程度は待つこと。
+プロンプトが返ってきても、Gitlabのページにアクセスできない場合がある。プロンプトが返った後でも5分程度は待つこと。
 
-### Githubからリポジトリのインポート
+### GitHubからリポジトリのインポート
 
 Hugoのドキュメント構成である以下のリポジトリをコピーする。
 
@@ -274,7 +272,7 @@ DNSのワイルドカード機能を使用できない場合は、クライア�
 
 ### CI
 
-このリポジトリのCIはgithub actionsを使用している。（actionsのタブを参照）
+このリポジトリのCIはGitHub actionsを使用している。（[actions](https://github.com/yamadatt/gitlabtad55/actions)のタブを参照）
 
 terraformはvalidを含めて、initとplan。applyを入れればCDまでは可能。
 
@@ -284,7 +282,7 @@ CIの発火はmainへのマージのタイミングとしている。
 
 ### ansibleの冪等性
 
-github runnerについて、使用しているansibleのバージョンが古くモジュールを使用できないため冪等になっていない。
+GitHub runnerについて、使用しているansibleのバージョンが古くモジュールを使用できないため冪等になっていない。
 
 ansibleを複数回実行すると、sharedのランナーが複数構築される。複数構築されたら場合は、手動で削除する。
 
