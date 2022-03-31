@@ -1,0 +1,12 @@
+# 各種情報の出力
+- name: information
+  shell: "{{ item }}"
+  with_items:
+    - 'hostname'
+    - 'uname -a'
+    - "docker --version"
+    - "docker-compose --version"
+  register: result
+
+- debug: var="result.results.{{ item }}.stdout_lines"
+  with_sequence: start=0 end=4

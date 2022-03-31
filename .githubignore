@@ -1,0 +1,9 @@
+# terraform
+terraform.tfstate*
+.terraform*
+
+# Mac用
+.DS_Store
+
+# Thumbnails
+._*

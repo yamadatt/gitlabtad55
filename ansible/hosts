@@ -1,0 +1,10 @@
+[targethost]
+13.230.166.17
+
+[targethost:vars]
+reg_token=ipeyyPiyijD7f8-Zi3mj
+ansible_ssh_port=22
+ansible_ssh_user=ubuntu
+ansible_ssh_private_key_file=/etc/ansible/pemfile/radio.pem
+ansible_become=yes
+host_key_checking=False

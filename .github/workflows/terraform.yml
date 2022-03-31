@@ -1,0 +1,39 @@
+name: terraform init,validate,plan
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  terraform:
+    name: Terraform
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-1
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.12.25
+
+    - name: Terraform Format
+      run: terraform fmt -recursive -check
+
+    - name: Terraform init,validate,plan
+      working-directory: ./terraform
+      run: |
+        terraform init
+        terraform validate
+        terraform plan

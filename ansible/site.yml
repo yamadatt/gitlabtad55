@@ -1,0 +1,7 @@
+- hosts: targethost
+
+  gather_facts: yes
+  roles:
+    - system
+    - get_info
+
